@@ -5,28 +5,26 @@ import { Box } from "@components/atoms/Box";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
-import { getProviders } from "@services/api/providers";
+import { IGetProviderRequest, getProviders } from "@services/api/providers";
 import { Table } from "@/components/molecules/Table";
 import { headers } from "./settings";
 import { useQueryString } from "@/hook/useQueryString";
-
-interface IFormProps {
-  name: string
-}
+import { IPaginationRequest } from "@/interfaces/api";
+import { usePagination } from "@/hook/usePagination";
 
 export const Providers = () => {
   const navigate = useNavigate();
-  const form = useForm<IFormProps>();
+  const form = useForm<IPaginationRequest<IGetProviderRequest>>();
 
-  const [params, setParams] = useQueryString<IFormProps>({
-    name: 'batata'
-  });
+  const [params, setParams] = useQueryString<IPaginationRequest<IGetProviderRequest>>();
 
   const { data } = useQuery({
-    queryKey: ["get_all_providers", params.name],
+    queryKey: ["get_all_providers", JSON.stringify(params)],
     queryFn: () =>
       getProviders(params).then((res) => res.data),
   });
+
+  const { nextPage, prevPage } = usePagination(data?.total ?? 0);
 
   return (
     <>
@@ -45,14 +43,16 @@ export const Providers = () => {
             form={form}
             name="filter"
             placeholder="Pesquise por um usuario"
+            handleClick={(text) => setParams({ filterName: text})}
           />
-          <Button.Default text="Submit" type="button" onClick={form.handleSubmit((onValid) => setParams(onValid))}/>
+          <Button.Default text="voltar" onClick={prevPage}/>
+          <Button.Default text="proximo" onClick={nextPage}/>
         </Grid.Item>
         <Grid.Item column={12}>
           <Box>
             <Table
               columns={headers}
-              rows={data ?? []}
+              rows={data?.docs ?? []}
               rowsProps={{
                 keyExtractor: (item) => item.id,
                 rowAction: (item) => navigate(`/providers/${item.id}`),

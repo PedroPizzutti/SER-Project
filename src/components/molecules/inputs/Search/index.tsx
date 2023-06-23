@@ -6,9 +6,11 @@ interface ISearchProps extends DefaultSettings {
   type: "text" | "email";
   label?: string;
   placeholder?: string;
+  handleClick?: (text: string) => void;
 }
 
-export const Search = ({type, label, placeholder, form, name}: ISearchProps) => {
+export const Search = ({type, label, placeholder, form, name, handleClick}: ISearchProps) => {
+  const value = form.watch(name);
   return (
     <div>
       <label>{label}</label>
@@ -18,7 +20,7 @@ export const Search = ({type, label, placeholder, form, name}: ISearchProps) => 
           placeholder={placeholder}
           {...form.register(name)}
         ></ContainerInput>
-        <Button>
+        <Button onClick={() => handleClick?.(value)}>
           <Icon name="search" color="#fff" />
         </Button>
       </FormControl>
