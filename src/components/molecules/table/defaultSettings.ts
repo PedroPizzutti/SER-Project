@@ -13,5 +13,6 @@ export interface ITableProps<T extends IExtractorObject> {
   rowsProps: {
     rowAction?: (item: T) => void;
     keyExtractor: (item: T) => string | number;
+    total?: number;
   };
 }

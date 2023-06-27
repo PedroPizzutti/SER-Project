@@ -1,3 +1,4 @@
+import { Pagination } from "../Pagination";
 import { Body } from "./Body";
 import { Header } from "./Header";
 import { IExtractorObject, ITableProps } from "./defaultSettings";
@@ -9,11 +10,14 @@ export const Table = <T extends IExtractorObject>({
   rowsProps,
 }: ITableProps<T>) => {
   return (
-    <Container>
-      <ContainerTable>
-        <Header columns={columns} />
-        <Body columns={columns} rows={rows} rowsProps={rowsProps} />
-      </ContainerTable>
-    </Container>
+    <>
+      <Container>
+        <ContainerTable>
+          <Header columns={columns} />
+          <Body columns={columns} rows={rows} rowsProps={rowsProps} />
+        </ContainerTable>
+      </Container>
+      {rowsProps.total! > 0 && <Pagination total={rowsProps.total} />}
+    </>
   );
 };

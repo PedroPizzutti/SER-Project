@@ -33,7 +33,7 @@ export const usePagination = <T = any>(
     setQueryString({
       ...query,
       limit,
-      page: Math.max(page + 1, Math.ceil(total / limit)),
+      page: Math.min(page + 1, Math.ceil(total / limit)),
     });
   }, [query]);
 

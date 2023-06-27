@@ -20,8 +20,9 @@ export const useQueryString = <T>(
 
   const setQuery = useCallback(
     (data: T) => {
+      const currentyQuery = Object.assign({}, query, data);
       navigate(
-        { pathname, search: qs.stringify(data) },
+        { pathname, search: qs.stringify(currentyQuery) },
         {
           replace: true,
         }
