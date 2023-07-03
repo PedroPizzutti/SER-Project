@@ -1,9 +1,13 @@
+export interface IDefaultColumnsProps {
+  actions: any;
+}
+
 export interface IExtractorObject {
   [key: string]: any;
 }
 
-export interface IColumnsProps<T extends IExtractorObject> {
-  key: keyof T;
+export interface IColumnsProps<T extends IExtractorObject = IExtractorObject> {
+  key: keyof (T & IDefaultColumnsProps);
   label: string;
 }
 

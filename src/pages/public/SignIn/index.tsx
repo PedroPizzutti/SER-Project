@@ -7,10 +7,9 @@ import { useForm } from "react-hook-form";
 import { Container } from "./styles";
 
 export const SignIn = () => {
-  const { signIn } = useAuth();
 
+  const { signIn, isLoading } = useAuth();
   const form = useForm<ISignInProps>();
-
   const handleSignIn = (data: ISignInProps) => {
     signIn(data);
   };
@@ -28,6 +27,7 @@ export const SignIn = () => {
           />
           <Button.Default
             text="Sign in"
+            isLoading={isLoading}
             onClick={form.handleSubmit(handleSignIn)}
           />
         </Grid.Container>

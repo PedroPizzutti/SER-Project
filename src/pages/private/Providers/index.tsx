@@ -3,9 +3,14 @@ import { Button } from "@components/molecules/buttons";
 import { Inputs } from "@components/molecules/inputs";
 import { Box } from "@components/atoms/Box";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hook/useToast";
 import { useForm } from "react-hook-form";
-import { useQuery } from "react-query";
-import { IGetProviderRequest, getProviders } from "@services/api/providers";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  IGetProviderRequest,
+  deleteProvider,
+  getProviders,
+} from "@services/api/providers";
 import { Table } from "@/components/molecules/Table";
 import { headers } from "./settings";
 import { useQueryString } from "@/hook/useQueryString";
@@ -13,26 +18,53 @@ import { IPaginationRequest, IPaginationResponse } from "@/interfaces/api";
 import { IProvider } from "@/interfaces/models";
 
 export const Providers = () => {
+  const { addToast } = useToast();
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const form = useForm<IPaginationRequest<IGetProviderRequest>>();
-
-  const addActionToProvidersList = (providers: IPaginationResponse<IProvider>) => {
-    providers.docs = providers.docs.map((provider) => ({
-      ...provider,
-      actions: (
-        <span>Click-me: {provider.id}</span>
-      )
-    }))
-
-    return providers;
-  }
 
   const [params, setParams] =
     useQueryString<IPaginationRequest<IGetProviderRequest>>();
 
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (provider_id: number) =>
+      deleteProvider(provider_id).then((res) => res.data),
+    onSuccess: (data) => {
+      addToast({ title: data.success, type: "success", toastOption: {
+        autoClose: 5000,
+      }});
+      queryClient.invalidateQueries([
+        "get_all_providers",
+        JSON.stringify(params),
+      ]);
+    },
+  });
+
+  const addActionToProvidersList = (
+    providers: IPaginationResponse<IProvider>
+  ) => {
+    providers.docs = providers.docs.map((provider) => ({
+      ...provider,
+      actions: (
+        <Button.Default
+          text="Deletar"
+          background="#9c4141"
+          color="#fff"
+          size="sm"
+          startIcon="delete"
+          isLoading={isLoading}
+          onClick={() => mutate(provider.id)}
+        />
+      ),
+    }));
+
+    return providers;
+  };
+
   const { data } = useQuery({
     queryKey: ["get_all_providers", JSON.stringify(params)],
-    queryFn: () => getProviders(params).then((res) => addActionToProvidersList(res.data)),
+    queryFn: () =>
+      getProviders(params).then((res) => addActionToProvidersList(res.data)),
   });
 
   return (

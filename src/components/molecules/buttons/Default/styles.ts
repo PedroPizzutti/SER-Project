@@ -13,7 +13,8 @@ export const Container = styled.button<IContainerProps>`
   font-weight: bold;
   gap: 10px;
   display: flex;
-  place-items: center;
+  justify-content: center;
+  text-align: center;
   cursor: pointer;
 
   ${({ color, background, size }) => {

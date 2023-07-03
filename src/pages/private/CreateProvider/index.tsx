@@ -3,16 +3,18 @@ import { Grid } from "@components/atoms/grid";
 import { Button } from "@components/molecules/buttons";
 import { Inputs } from "@components/molecules/inputs";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hook/useToast";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { form_validation } from "./schema";
 import { convertFileToBase64 } from "@utils/convertFileToBase64";
 import { TCreateProviderData, createProvider, findProviderById, updateProvider } from "@services/api/providers";
 import { useMutation, useQuery } from "react-query";
 import { AxiosError } from "axios";
-import { IErrorResponse } from "@/interfaces/apiResponse";
-import { useLocation, useParams } from "react-router-dom";
+import { IErrorResponse } from "@interfaces/api";
+import { useParams } from "react-router-dom";
 
 export const CreateProvider = () => {
+  const { addToast } = useToast();
   const { id_provider } = useParams();
   const isNewRecord = id_provider === 'new';
 
@@ -36,11 +38,15 @@ export const CreateProvider = () => {
       return createProvider(body);
     },
     onSuccess: (success) => {
-      alert(success.data.success);
       form.reset();
+      addToast({ title: success.data.success, type: "success", toastOption: {
+        autoClose: 5000,
+      }});
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      alert(error.response?.data.error)
+      addToast({ title: error.response?.data.error as string, type: "error", toastOption: {
+        autoClose: 5000,
+      }});
     },
   });
 
@@ -49,11 +55,15 @@ export const CreateProvider = () => {
       return updateProvider(body, id_provider ?? '');
     },
     onSuccess: (success) => {
-      alert(success.data.success);
       form.reset();
+      addToast({ title: success.data.success, type: "success", toastOption: {
+        autoClose: 5000,
+      }});
     },
     onError: (error: AxiosError<IErrorResponse>) => {
-      alert(error.response?.data.error)
+      addToast({ title: error.response?.data.error as string, type: "error", toastOption: {
+        autoClose: 5000,
+      }});
     },
   });
 

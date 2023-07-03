@@ -1,8 +1,7 @@
 import { IColumnsProps } from "@/components/molecules/Table/defaultSettings";
 import { IProvider } from "@/interfaces/models";
 
-//IColumnsProps<IProvider>[]
-export const headers: any = [
+export const headers: IColumnsProps<IProvider>[] = [
   {
     key: "name",
     label: "usuario",
@@ -21,6 +20,6 @@ export const headers: any = [
   },
   {
     key: "actions",
-    label: "acao",
+    label: "Acao",
   },
 ];
