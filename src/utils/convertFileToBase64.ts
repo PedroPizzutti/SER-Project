@@ -1,5 +1,4 @@
 export const convertFileToBase64 = (file?: File) => {
-  console.log(file);
   return new Promise<any>((resolve, reject) => {
     const writeFile = new FileReader();
     if (file) {
@@ -7,13 +6,15 @@ export const convertFileToBase64 = (file?: File) => {
       writeFile.onload = () => {
         if (writeFile.result) {
           resolve(writeFile.result);
+        } else {
+          resolve(null);
         }
-        resolve(null);
+      };
+    } else {
+      resolve(null);
+      writeFile.onerror = (error) => {
+        reject(error);
       };
     }
-    resolve(null);
-    writeFile.onerror = (error) => {
-      reject(error);
-    };
   });
 };

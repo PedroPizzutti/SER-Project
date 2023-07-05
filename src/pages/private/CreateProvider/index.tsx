@@ -18,11 +18,12 @@ import { AxiosError, AxiosResponse } from "axios";
 import { IErrorResponse, ISuccessResponse } from "@interfaces/api";
 import { useParams } from "react-router-dom";
 import { UserInformation } from "@/components/templates/UserInformations";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const CreateProvider = () => {
   const { addToast } = useToast();
   const { id_provider } = useParams();
+  const [profileFic, setProfilePic] = useState('');
   const isNewRecord = id_provider === "new";
 
   const form = useForm<TCreateProviderData>({
@@ -35,13 +36,15 @@ export const CreateProvider = () => {
     if (!isNewRecord && id_provider) {
       findProviderById(id_provider).then(({ data }) => {
         data.id === undefined;
+        setProfilePic(data.profilePic);
+        form.reset(data);
         return data;
       });
     }
   };
 
   const mutateReturns = {
-    success: (success: AxiosResponse<ISuccessResponse, any>) => {
+    OnSuccess: (success: AxiosResponse<ISuccessResponse, any>) => {
       addToast({
         title: success.data.success,
         type: "success",
@@ -50,7 +53,7 @@ export const CreateProvider = () => {
         },
       });
     },
-    error: (error: AxiosError<IErrorResponse>) => {
+    OnError: (error: AxiosError<IErrorResponse>) => {
       addToast({
         title: error.response?.data.error ?? "",
         type: "error",
@@ -65,23 +68,19 @@ export const CreateProvider = () => {
     mutationFn: (body: TCreateProviderData) => {
       return createProvider(body);
     },
-    onSuccess: mutateReturns.success,
-    onError: mutateReturns.error,
+    onSuccess: mutateReturns.OnSuccess,
+    onError: mutateReturns.OnError,
   });
 
   const { mutate: updateMutation } = useMutation({
     mutationFn: (body: TCreateProviderData) => {
       return updateProvider(body, id_provider ?? "");
     },
-    onSuccess: mutateReturns.success,
-    onError: mutateReturns.error,
+    onSuccess: mutateReturns.OnSuccess,
+    onError: mutateReturns.OnError,
   });
 
   const handleSubmit = async (onValid: TCreateProviderData) => {
-    const profilePicBase64 = await convertFileToBase64(
-      onValid.profilePic[0] as File
-    );
-    onValid.profilePic = profilePicBase64;
     isNewRecord ? mutate(onValid) : updateMutation(onValid);
   };
 
@@ -110,6 +109,13 @@ export const CreateProvider = () => {
                   isRequired
                   form={form}
                   name="profilePic"
+                  acceptFiles="image/*"
+                  onFileChange={(e) => {
+                    convertFileToBase64(e.target.files?.[0]).then((pic) => {
+                      console.log(pic);
+                      setProfilePic(pic);
+                    }) 
+                  }}
                 />
               </Grid.Item>
               <Grid.Item column={12}>
@@ -178,7 +184,7 @@ export const CreateProvider = () => {
               email: previewFormData.email,
               name: previewFormData.name,
               phone: previewFormData.phone,
-              picture: "",
+              picture: profileFic,
             }}
           />
         </Grid.Item>
