@@ -17,6 +17,10 @@ export const Container = styled.button<IContainerProps>`
   text-align: center;
   cursor: pointer;
 
+  :hover {
+    background: #a7a7a7;
+  }
+
   ${({ color, background, size }) => {
     return `
       color: ${color ?? "#fff"};

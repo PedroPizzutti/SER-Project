@@ -33,6 +33,10 @@ interface IItemMenuProps {
 export const ItemMenu = styled(Link)<IItemMenuProps>`
   text-decoration: none;
 
+  :hover {
+    color: #319795;
+  }
+
   ${({ $isActive }) => `
     color: ${$isActive ? "#CE275C" : "#333"};
     font-weight: ${$isActive ? "bold" : "500"};

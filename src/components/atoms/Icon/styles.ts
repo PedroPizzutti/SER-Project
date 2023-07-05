@@ -9,4 +9,8 @@ export const Span = styled.span.attrs({
 })<ISpanProps>`
   font-size: 1rem;
   color: ${({ color }) => color};
+
+  :hover {
+    color: #319795;
+  }
 `;

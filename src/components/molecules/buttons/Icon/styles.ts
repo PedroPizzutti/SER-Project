@@ -6,7 +6,6 @@ interface IContainerProps {
 }
 
 export const Container = styled.button<IContainerProps>`
-  /* padding: 0.7em 2em; */
   border: none;
   border-radius: 5px;
   font-weight: bold;
