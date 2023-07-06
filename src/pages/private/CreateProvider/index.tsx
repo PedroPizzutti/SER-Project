@@ -81,6 +81,8 @@ export const CreateProvider = () => {
   });
 
   const handleSubmit = async (onValid: TCreateProviderData) => {
+    onValid.profilePic = profileFic;
+    console.log(onValid);
     isNewRecord ? mutate(onValid) : updateMutation(onValid);
   };
 
@@ -112,10 +114,17 @@ export const CreateProvider = () => {
                   acceptFiles="image/*"
                   onFileChange={(e) => {
                     convertFileToBase64(e.target.files?.[0]).then((pic) => {
-                      console.log(pic);
                       setProfilePic(pic);
                     }) 
                   }}
+                />
+              </Grid.Item>
+              <Grid.Item column={3}>
+                <Inputs.Color 
+                  label="selecione a cor"
+                  isRequired
+                  form={form}
+                  name="color"
                 />
               </Grid.Item>
               <Grid.Item column={12}>

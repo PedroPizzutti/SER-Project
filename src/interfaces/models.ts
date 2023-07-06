@@ -6,4 +6,5 @@ export interface IProvider {
   cpf: string;
   bio: string;
   profilePic?: any;
+  color: string;
 }
