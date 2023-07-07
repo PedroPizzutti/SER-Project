@@ -1,17 +1,17 @@
 import styled from "styled-components";
 
 export const FormControl = styled.div`
-  border-radius: 4px;
-  display: flex;
+  border-radius: 50px;
+  overflow: hidden;
+  height: 50px;
+  width: 50px;
 `;
 
 export const ContainerInput = styled.input`
-  background-color: transparent;
-  border-radius: 4px 0 0 4px;
-  flex: 1;
-  border: none;
-  appearance: none;
-  width: 2.5rem;
-  height: 2.5rem;
+  padding: 0;
+  border: 0px;
+  transform: translate(-25%, -25%);
+  width: 400%;
+  height: 400%;
   cursor: pointer;
 `;

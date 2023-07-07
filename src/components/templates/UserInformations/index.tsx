@@ -18,13 +18,14 @@ interface IUserInformationProps {
     phone: string;
     picture: string;
     bio: string;
+    color: string;
   };
 }
 
 export const UserInformation = ({ data }: IUserInformationProps) => {
   return (
     <Container>
-      <Header>
+      <Header $color={data.color}>
         <Profile src={data.picture} alt={data.name}></Profile>
       </Header>
       <CardInfos>

@@ -31,10 +31,13 @@ export const Text = ({
           type={type}
           placeholder={placeholder}
           {...form.register(name)}
-          onChange={() => form.clearErrors(name)}
+          onChange={(event) => {
+            form.register(name).onChange(event);
+            form.clearErrors(name);
+          }}
         ></ContainerInput>
       </FormControl>
-      <Error text={error?.message}/>
+      <Error text={error?.message} />
     </div>
   );
 };

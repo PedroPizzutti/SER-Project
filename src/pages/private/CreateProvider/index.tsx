@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 export const CreateProvider = () => {
   const { addToast } = useToast();
   const { id_provider } = useParams();
-  const [profileFic, setProfilePic] = useState('');
+  const [profileFic, setProfilePic] = useState("");
   const isNewRecord = id_provider === "new";
 
   const form = useForm<TCreateProviderData>({
@@ -115,12 +115,12 @@ export const CreateProvider = () => {
                   onFileChange={(e) => {
                     convertFileToBase64(e.target.files?.[0]).then((pic) => {
                       setProfilePic(pic);
-                    }) 
+                    });
                   }}
                 />
               </Grid.Item>
               <Grid.Item column={3}>
-                <Inputs.Color 
+                <Inputs.Color
                   label="selecione a cor"
                   isRequired
                   form={form}
@@ -177,9 +177,13 @@ export const CreateProvider = () => {
                   name="bio"
                 />
               </Grid.Item>
-              <Grid.Item column={2}>
+              <Grid.Item column={4}>
                 <Button.Default
-                  text="Criar prestador"
+                  text={
+                    id_provider
+                      ? "Atualizar prestador(a)"
+                      : "Criar prestador(a)"
+                  }
                   onClick={form.handleSubmit(handleSubmit)}
                 />
               </Grid.Item>
@@ -194,6 +198,7 @@ export const CreateProvider = () => {
               name: previewFormData.name,
               phone: previewFormData.phone,
               picture: profileFic,
+              color: previewFormData.color,
             }}
           />
         </Grid.Item>

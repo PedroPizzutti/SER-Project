@@ -9,12 +9,7 @@ interface IColorText extends DefaultSettings {
   isRequired?: boolean;
 }
 
-export const Color = ({
-  label,
-  isRequired,
-  form,
-  name,
-}: IColorText) => {
+export const Color = ({ label, isRequired, form, name }: IColorText) => {
   const error = useMemo(() => {
     return form.getFieldState(name).error;
   }, [form.formState]);
@@ -26,7 +21,10 @@ export const Color = ({
         <ContainerInput
           type="color"
           {...form.register(name)}
-          onChange={() => form.clearErrors(name)}
+          onChange={(e) => {
+            form.register(name).onChange(e);
+            form.clearErrors(name);
+          }}
         ></ContainerInput>
       </FormControl>
       <Error text={error?.message} />

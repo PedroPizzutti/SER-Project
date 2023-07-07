@@ -5,12 +5,19 @@ export const Container = styled.div`
   background: #fff;
 `;
 
-export const Header = styled.div`
+interface IHeaderProps {
+  $color: string;
+}
+
+export const Header = styled.div<IHeaderProps>`
   padding: 20px;
   border-radius: 5px 5px 0px 0px;
   height: 100px;
   position: relative;
-  background: #d9d9d9;
+
+  ${({ $color }) => `
+    background: ${$color ?? "#d9d9d9"};
+  `};
 `;
 
 export const Profile = styled.img`
