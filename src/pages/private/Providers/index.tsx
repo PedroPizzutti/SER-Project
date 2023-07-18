@@ -16,6 +16,7 @@ import { headers } from "./settings";
 import { useQueryString } from "@/hook/useQueryString";
 import { IPaginationRequest, IPaginationResponse } from "@/interfaces/api";
 import { IProvider } from "@/interfaces/models";
+import Breadcrumbs from "@/components/molecules/Breadcrumbs";
 
 export const Providers = () => {
   const { addToast } = useToast();
@@ -30,9 +31,13 @@ export const Providers = () => {
     mutationFn: (provider_id: number) =>
       deleteProvider(provider_id).then((res) => res.data),
     onSuccess: (data) => {
-      addToast({ title: data.success, type: "success", toastOption: {
-        autoClose: 5000,
-      }});
+      addToast({
+        title: data.success,
+        type: "success",
+        toastOption: {
+          autoClose: 5000,
+        },
+      });
       queryClient.invalidateQueries([
         "get_all_providers",
         JSON.stringify(params),
@@ -69,6 +74,9 @@ export const Providers = () => {
 
   return (
     <>
+      <Breadcrumbs
+        menus={[{ label: "Home", path: "/home" }, { label: "Prestadores" }]}
+      ></Breadcrumbs>
       <Grid.Container columns={12}>
         <Grid.Item column={4}>
           <Button.Default

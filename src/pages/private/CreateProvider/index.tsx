@@ -19,6 +19,7 @@ import { IErrorResponse, ISuccessResponse } from "@interfaces/api";
 import { useParams } from "react-router-dom";
 import { UserInformation } from "@/components/templates/UserInformations";
 import { useEffect, useState } from "react";
+import Breadcrumbs from "@/components/molecules/Breadcrumbs";
 
 export const CreateProvider = () => {
   const { addToast } = useToast();
@@ -92,6 +93,13 @@ export const CreateProvider = () => {
 
   return (
     <>
+      <Breadcrumbs
+        menus={[
+          { label: "Home", path: "/home" },
+          { label: "Prestadores", path: "/providers" },
+          { label: previewFormData.name ?? "Criar" },
+        ]}
+      ></Breadcrumbs>
       <Grid.Container columns={12}>
         <Grid.Item column={8}>
           <Box>
