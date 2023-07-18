@@ -4,6 +4,7 @@ const sizes = {
   sm: ".7rem",
   md: "1rem",
   lg: "1.3rem",
+  xlg: '2rem',
 };
 
 interface IIconProps {
