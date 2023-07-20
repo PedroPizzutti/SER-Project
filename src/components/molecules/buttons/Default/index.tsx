@@ -1,3 +1,4 @@
+import theme from "@/global/styles/theme";
 import { Container } from "./styles";
 import { Icon } from "@components/atoms/Icon";
 
@@ -12,8 +13,8 @@ const sizes = {
 interface IDefaultProps extends React.ButtonHTMLAttributes<any> {
   text: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  color?: string;
-  background?: string;
+  color?: keyof typeof theme.colors;
+  background?: keyof typeof theme.colors;
   size?: keyof typeof sizes;
   startIcon?: string;
   endIcon?: string;

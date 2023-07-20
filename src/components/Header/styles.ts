@@ -5,7 +5,7 @@ export const HeaderComponent = styled.header`
   display: flex;
   width: 100vw;
   box-sizing: border-box;
-  padding: 30px 10%;
+  padding: 20px 10%;
   background: #fff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 

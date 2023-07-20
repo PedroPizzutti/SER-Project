@@ -1,5 +1,5 @@
 import { Icon } from "@/components/atoms/Icon";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import {
   Container,
   Content,
@@ -8,29 +8,43 @@ import {
   NavbarList,
   ToggleContent,
   ContentChildren,
+  Link,
 } from "./styles";
 import { sidebar_menus } from "./settings";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = ({ children }: PropsWithChildren) => {
+  const { pathname } = useLocation();
+  const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(false);
+
   return (
     <Container>
-      <Content>
-        <ToggleContent>
+      <Content $isOpenSideBar={isOpenSideBar}>
+        <ToggleContent
+          onClick={() => setIsOpenSideBar((oldState) => !oldState)}
+        >
           <Icon name="menu" size="xlg" />
         </ToggleContent>
         <Navbar>
           <NavbarList>
             {sidebar_menus.map((menu) => (
-              <NavbarItem key={menu.id}>
+              <Link
+                key={menu.id}
+                $isActive={pathname.includes(menu.path ?? "")}
+                $isOpenSideBar={isOpenSideBar}
+                to={menu.path ?? ""}
+              >
                 <Icon name={menu.icon} size="lg" />
-                {menu.label}
-              </NavbarItem>
+                {isOpenSideBar && menu.label}
+              </Link>
             ))}
           </NavbarList>
           <NavbarItem>Logout</NavbarItem>
         </Navbar>
       </Content>
-      <ContentChildren>{children}</ContentChildren>
+      <ContentChildren $isOpenSideBar={isOpenSideBar}>
+        {children}
+      </ContentChildren>
     </Container>
   );
 };
