@@ -188,9 +188,9 @@ export const CreateProvider = () => {
               <Grid.Item column={4}>
                 <Button.Default
                   text={
-                    id_provider
-                      ? "Atualizar prestador(a)"
-                      : "Criar prestador(a)"
+                    id_provider == "new"
+                      ? "Criar prestador(a)"
+                      : "Atualizar prestador(a)"
                   }
                   onClick={form.handleSubmit(handleSubmit)}
                 />

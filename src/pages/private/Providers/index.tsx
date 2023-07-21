@@ -53,8 +53,7 @@ export const Providers = () => {
       actions: (
         <Button.Default
           text="Deletar"
-          background="primaryRed"
-          color="primaryWhite"
+          background="error"
           size="sm"
           startIcon="delete"
           isLoading={isLoading}

@@ -1,10 +1,10 @@
-import theme from "@/global/styles/theme";
+import { TColorKeys, TFontSizeKeys } from "@/interfaces/theme";
 import styled from "styled-components";
 
 interface IContainerProps {
-  color?: keyof typeof theme.colors;
-  background?: keyof typeof theme.colors;
-  size?: string;
+  color?: TColorKeys;
+  background?: TColorKeys;
+  size?: TFontSizeKeys;
 }
 
 export const Container = styled.button<IContainerProps>`
@@ -24,9 +24,9 @@ export const Container = styled.button<IContainerProps>`
 
   ${({ color, background, size, theme }) => {
     return `
-      color: ${color ?? "#fff"};
-      background: ${theme.colors[background ?? "primaryBlue"]};
-      font-size: ${size}
+      color: ${theme.colors[color ?? "primaryContrast"]};
+      background: ${theme.colors[background ?? "primary"]};
+      font-size: ${theme.fontSizes[size ?? "md"]}
     `;
   }}
 `;
